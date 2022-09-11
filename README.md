@@ -1,0 +1,1 @@
+# typegraphql-typegoose-ts-api
