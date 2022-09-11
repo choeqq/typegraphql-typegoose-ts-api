@@ -18,9 +18,10 @@ export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
   });
 }
 
-export function verifyJwt(token: string) {
+export function verifyJwt<T>(token: string): T | null {
   try {
-    const decoded = jwt.verify(token, publicKey);
+    const decoded = jwt.verify(token, publicKey) as T;
+    return decoded;
   } catch (e) {
     return null;
   }

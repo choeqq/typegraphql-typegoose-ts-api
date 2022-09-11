@@ -24,11 +24,21 @@ class UserService {
       throw new ApolloError(e);
     }
     // sign jwt
-    const token = signJwt();
+    const token = signJwt(user);
 
     // set a cookie for the jwt
+    context.res.cookie("accessToken", token, {
+      maxAge: 3.154e10, // 1 year ms
+      httpOnly: true,
+      domain: "localhost",
+      path: "/",
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "produciton",
+    });
 
     // return the jwt
+
+    return token;
   }
 }
 
