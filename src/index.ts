@@ -9,6 +9,7 @@ import {
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
+import { resolvers } from "./resolvers";
 
 async function boostrap() {
   // build the schema
@@ -24,7 +25,6 @@ async function boostrap() {
   const server = new ApolloServer({
     schema,
     context: (ctx) => {
-      console.log(ctx);
       return ctx;
     },
     plugins: [
