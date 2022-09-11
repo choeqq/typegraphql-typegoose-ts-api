@@ -1,5 +1,5 @@
 import { getModelForClass, index, prop, Ref } from "@typegoose/typegoose";
-import { Field, InputType, InputType, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 import { User } from "./user.schema";
 import { customAlphabet } from "nanoid";
 import { IsNumber, MaxLength, Min, MinLength } from "class-validator";
