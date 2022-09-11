@@ -10,21 +10,23 @@ import {
   ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
 import { resolvers } from "./resolvers";
+import { connectToMongo } from "./utils/mongo";
 
-async function boostrap() {
-  // build the schema
+async function bootstrap() {
+  // Build the schema
   const schema = await buildSchema({
     resolvers,
-    // authChecker
   });
-  // init express
+
+  // Init express
   const app = express();
 
   app.use(cookieParser());
-  // create apollo server
+
+  // Create the apollo server
   const server = new ApolloServer({
     schema,
-    context: (ctx) => {
+    context: (ctx: any) => {
       return ctx;
     },
     plugins: [
@@ -35,17 +37,15 @@ async function boostrap() {
   });
 
   await server.start();
-  // await server.start()
+  // apply middleware to server
 
   server.applyMiddleware({ app });
 
-  // apply middleware to server
+  // app.listen on express server
   app.listen({ port: 4000 }, () => {
     console.log("App is listening on http://localhost:4000");
   });
-  // app.listen on express server
-
-  // connect to db
+  connectToMongo();
 }
 
-boostrap();
+bootstrap();
