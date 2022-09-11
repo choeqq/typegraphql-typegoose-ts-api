@@ -11,6 +11,9 @@ import {
 } from "apollo-server-core";
 import { resolvers } from "./resolvers";
 import { connectToMongo } from "./utils/mongo";
+import { verifyJwt } from "./utils/jwt";
+import { User } from "./schema/user.schema";
+import Context from "./types/context";
 
 async function bootstrap() {
   // Build the schema
@@ -26,7 +29,13 @@ async function bootstrap() {
   // Create the apollo server
   const server = new ApolloServer({
     schema,
-    context: (ctx: any) => {
+    context: (ctx: Context) => {
+      const context = ctx;
+
+      if (ctx.req.cookies.accessToken) {
+        const user = verifyJwt<User>(ctx.req.cookies.accessToken);
+        context.user = user;
+      }
       return ctx;
     },
     plugins: [

@@ -19,12 +19,8 @@ export default class UserResolver {
     return this.userService.login(input, context);
   }
 
-  @Query(() => User)
-  me() {
-    return {
-      _id: "123",
-      name: "John Doe",
-      email: "John Doe",
-    };
+  @Query(() => User, { nullable: true })
+  me(@Ctx() context: Context) {
+    return context.user;
   }
 }
